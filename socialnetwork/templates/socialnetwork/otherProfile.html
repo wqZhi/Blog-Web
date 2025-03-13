@@ -1,0 +1,45 @@
+{% extends "socialnetwork/base.html" %}
+{% load static %}
+
+
+{% block page_name %}
+<h2 id="id_page_name">{{ other_user.first_name }} {{ other_user.last_name }} Profile</h2>
+{% endblock %}
+
+
+
+{% block top_right_link %}
+<a href="{% url 'myProfile' %}" id="id_nav_profile">{{ user.first_name }} {{ user.last_name }}</a>
+<a href="{% url 'globalStream' %}" id="id_nav_global_stream">Global</a>
+<a href="{% url 'followerStream' %}" id="id_nav_follower_stream">Follower</a>
+<a href="{% url 'logout' %}" id="id_nav_logout">Logout</a>
+{% endblock top_right_link %}
+
+
+<div class="search-container">
+    <input type="text" placeholder="Search posts..." class="search-input">
+    <span class="search-icon">🔍</span>
+  </div>
+
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-picture">
+        {% if other_profile.picture %}
+        <img src="{% url 'photo' other_profile.id %}" alt="Profile Picture" id="id_user_picture" width="200" height="200">
+        {% else %}
+        <img src="{% static 'socialnetwork/default.png' %}" alt="Default" id="id_user_picture" width="200" height="200">
+        {% endif %}
+    </div>
+
+    <div class="bio-section">
+        <p id="id_user_bio">{{ other_profile.bio_input_text }}</p>
+    </div>
+
+    {% if is_following %}
+        <a href="{% url 'unfollow' other_user.username %}" id="id_unfollow">Unfollow</a>
+    {% else %}
+        <a href="{% url 'follow' other_user.username %}" id="id_follow">Follow</a>
+    {% endif %}
+</div>
+{% endblock content %}

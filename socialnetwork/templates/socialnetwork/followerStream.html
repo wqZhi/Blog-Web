@@ -1,0 +1,26 @@
+{% extends "socialnetwork/base.html" %}
+{% load static %}
+
+{% block page_name %}
+<h2 id="id_page_name" class="page-name">Follower Stream</h2>
+{% endblock %}
+
+
+{% block top_right_link %}
+<a href="{% url 'myProfile' %}" id="id_nav_profile">{{ user.first_name }} {{ user.last_name }}</a>
+<a href="{% url 'globalStream' %}" id="id_nav_global_stream">Global</a>
+<a href="{% url 'followerStream' %}" id="id_nav_follower_stream">Follower</a>
+<a href="{% url 'logout' %}" id="id_nav_logout">Logout</a>
+{% endblock top_right_link %}
+
+
+{% block content %}
+<div id="error-message" class="error-message" style="display:none;"></div>
+
+<div id="post-list" class="post-list"></div>
+
+<div id="follower-stream-url" data-url="{% url 'get_follower' %}" style="display:none;"></div>
+<div id="add-comment-url" data-url="{% url 'add_comment' %}" style="display:none;"></div>
+
+<script src="{% static 'socialnetwork/socialnetwork.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    {% load static %}
+		<link href="{% static 'socialnetwork/base.css' %}" rel="stylesheet" type="text/css">
+		<title> {% block title %} Blog Master {% endblock %} </title>
+	</head>
+
+	<body>
+		<div class="reading-progress-bar" id="readingProgressBar"></div>
+		<div id="id_header_div" class="header-bar">
+			<h1 id="id_site_name" class="site-name">Blog Master</h1>
+			{% block top_right_link %}
+			{% endblock top_right_link %}
+		</div>
+
+		{% block page_name %}
+        {% endblock page_name %}
+
+	    <div class="content">
+		    {% block content %}
+		    {% endblock %}
+		</div>
+	</body>
+</html>

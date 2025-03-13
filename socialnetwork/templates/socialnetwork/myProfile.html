@@ -1,0 +1,70 @@
+{% extends "socialnetwork/base.html" %}
+{% load static %}
+
+{% block page_name %}
+<h2 id="id_page_name">Profile Page for {{ user.first_name }} {{ user.last_name }}</h2>
+{% endblock page_name %}
+
+
+{% block top_right_link %}
+<a href="{% url 'myProfile' %}" id="id_nav_profile">{{ user.first_name }} {{ user.last_name }}</a>
+<a href="{% url 'globalStream' %}" id="id_nav_global_stream">Global</a>
+<a href="{% url 'followerStream' %}" id="id_nav_follower_stream">Follower</a>
+<a href="{% url 'logout' %}" id="id_nav_logout">Logout</a>
+{% endblock top_right_link %}
+
+
+{% block content %}
+<div class="profile-container">
+  <div class="profile-picture">
+    {% if profile.picture %}
+    <img src="{% url 'photo' profile.id %}" alt="Profile Picture" id="id_user_picture" width="200" height="200">
+    {% else %}
+    <img src="{% static 'socialnetwork/default.png' %}" alt="Default" id="id_user_picture" width="200" height="200">
+    {% endif %}
+  </div>
+
+  <form method="post" action="{% url 'myProfile' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label for="id_bio_input_text">Bio:</label>
+      {{ form.bio_input_text }}
+      {% if form.bio_input_text.errors %}
+      <div class="error-list">
+        {% for error in form.bio_input_text.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="id_profile_picture">Profile Picture:</label>
+      {{ form.picture }}
+      {% if form.picture.errors %}
+      <div class="error-list">
+        {% for error in form.picture.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <button type="submit" id="id_update_profile_button" class="btn-primary">submit</button>
+  </form>
+
+  <div class="following-section">
+    <h3>You are following:</h3>
+    {% for profile in following %}
+      <a href="{% url 'other_profile' profile.user.username %}" 
+         class="following-link" 
+         id="id_profile_link_{{ profile.user.username }}">
+        {{ profile.user.first_name }} {{ profile.user.last_name }}
+      </a>
+    {% empty %}
+      <p>Not following anyone yet.</p>
+    {% endfor %}
+  </div>
+
+  {% endblock content %}

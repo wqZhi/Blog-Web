@@ -1,0 +1,36 @@
+{% extends "socialnetwork/base.html" %}
+{% load static %}
+
+
+{% block top_right_link %}
+<a href="{% url 'myProfile' %}" id="id_nav_profile">{{ user.first_name }} {{ user.last_name }}</a>
+<a href="{% url 'globalStream' %}" id="id_nav_global_stream">Global</a>
+<a href="{% url 'followerStream' %}" id="id_nav_follower_stream">Follower</a>
+<a href="{% url 'logout' %}" id="id_nav_logout">Logout</a>
+{% endblock top_right_link %}
+
+
+{% block page_name %}
+<h2 id="id_page_name" class="page-name">Global Stream</h2>
+{% endblock page_name %}
+
+
+{% block content %}
+<div id="error-message" class="error-message" style="display:none;"></div>
+
+<div class="post-form-container">
+    <form id="post-form" method="post" action="{% url 'add_post' %}">
+        {% csrf_token %}
+        <label>New Post:</label>
+        <textarea id="id_post_input_text" name="post_input_text" rows="3"></textarea>
+        <button type="submit" id="id_post_button">Submit</button>
+    </form>
+</div>
+
+<div id="post-list" class="post-list"></div>
+
+<div id="global-stream-url" data-url="{% url 'get_global' %}" style="display:none;"></div>
+<div id="add-comment-url" data-url="{% url 'add_comment' %}" style="display:none;"></div>
+
+<script src="{% static 'socialnetwork/socialnetwork.js' %}"></script>
+{% endblock %}
